@@ -89,6 +89,7 @@
 			<button id="sphere">SPHERE</button>
 			<button id="helix">HELIX</button>
 			<button id="grid">GRID</button>
+			<button id="cone">CONE </button>
 		</div>
 
 		<!-- Import maps polyfill -->
@@ -345,6 +346,23 @@
 					targets.grid.push( object );
 
 				}
+				
+				// cone
+
+
+				for (let i = 0, l = objects.length; i < l; i++) {
+				  const object = new THREE.Object3D();
+				  const phi = (i / l) * Math.PI * 2; // angle based on object index
+				  const radius = (l - i) * 20; // radius decreases as index increases
+
+				  object.position.set(Math.cos(phi) * radius, -i * 20, Math.sin(phi) * radius); // position along spiral
+
+				  vector.set(-Math.cos(phi), 0, -Math.sin(phi)); // point towards center of cone
+				  object.lookAt(vector);
+
+				  targets.cone.push(object); // add to cone target array
+				}
+
 
 				//
 
@@ -390,6 +408,15 @@
 				transform( targets.table, 2000 );
 
 				//
+				
+				const buttonCone = document.getElementById( 'cone' );
+				buttonGrid.addEventListener( 'click', function () {
+
+					transform( targets.cone, 2000 );
+
+				} );
+
+				transform( targets.table, 2000 );
 
 				window.addEventListener( 'resize', onWindowResize );
 
